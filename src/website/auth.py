@@ -70,11 +70,39 @@ def logout():
     logout_user()
     return redirect(url_for("auth.login"))
 
-
-@auth.route("/reset-password")
+@auth.route("/reset-password", methods=["GET", "POST"])
 def reset_password():
-    return render_template("home.html")
+    if request.method == "POST":
+        email = request.form.get("email")
+        new_password = request.form.get("password")
+        password_confirm = request.form.get("confirm")
 
+        valid_email = True
+        password_error = password_authenticator(new_password)
+
+        try:
+            email_info = validate_email(email, check_deliverability=False)
+            email = email_info.normalized
+        except EmailNotValidError as e:
+            valid_email = False
+
+        user = User.query.filter_by(email=email).first()
+        
+        if not user:
+            flash("Email does not exist.", category="error")
+        elif not valid_email:
+            flash("Please enter a valid email.", category="invalid-input")
+        elif password_error != 0:
+            flash(f"Password is {password_error}.", category="invalid-input")
+        elif new_password != password_confirm:
+            flash("Passwords do not match.", category="invalid-input")
+        else:
+            user.password = generate_password_hash(new_password, method="pbkdf2:sha1")
+            db.session.commit()
+            flash("Password reset successfully!", category="success")
+            return redirect(url_for("auth.login"))
+
+    return render_template("reset-password.html")
 
 def password_authenticator(password: str):
     if len(password) < 8: return "too short"
