@@ -16,11 +16,11 @@
         crossorigin="anonymous"
     />
     <link rel="stylesheet" href="../static/styles.css"/>
-    <title>{% block title %}I don't know the name for this thing{% endblock %}</title>
+    <title>{% block title %}Movie Mentor{% endblock %}</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">I don't know the name</a>
+        <a class="navbar-brand" href="/">Movie Mentor</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -53,7 +53,7 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-    
+
     <div class="container-fluid">
         {% block content %}
         {% endblock %}
