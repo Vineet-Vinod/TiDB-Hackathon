@@ -1,0 +1,32 @@
+{% extends "base.html" %} 
+{% block title %}Tune Your Preferences{% endblock %}
+{% block content %}
+<div class="preferences-form container-fluid text-center">
+    <form id="preference-form" method="post">
+        <input type="hidden" name="response" id="response" value="">
+        <button type="submit" onclick="setResponse('left')" class="btn btn-primary">&#128078;</button>
+        <div class="image-container">
+            <img src="{{ image }}" alt="Preference Image" class="img-fluid" id="movie-poster"/>
+        </div>
+        <button type="submit" onclick="setResponse('right')" class="btn btn-success">&#128077;</button>
+    </form>
+</div>
+
+<script>
+    function setResponse(direction) { document.getElementById('response').value = direction; }
+
+    document.addEventListener('keydown', function(event) 
+    {
+        if (event.key === "ArrowLeft") 
+        {
+            setResponse('left');
+            document.getElementById('preference-form').submit();
+        } 
+        else if (event.key === "ArrowRight") 
+        {
+            setResponse('right');
+            document.getElementById('preference-form').submit();
+        }
+    });
+</script>
+{% endblock %}

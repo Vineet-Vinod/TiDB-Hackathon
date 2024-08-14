@@ -2,3 +2,20 @@ form
 {
     margin-top: 2rem;
 }
+
+#movie-poster
+{
+    height: 30rem;
+}
+
+#preference-form
+{
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0 0 0
+}
+
+#preference-form *
+{
+    padding: 1rem;
+}
