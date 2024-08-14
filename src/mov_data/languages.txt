@@ -1,0 +1,14 @@
+English
+Hindi
+Kannada
+Malayalam
+Tamil
+Telugu
+French
+German
+Spanish
+Italian
+Portuguese
+Mandarin
+Japanese
+Korean
