@@ -1,4 +1,12 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %}
+{% extends "base.html" %} 
+{% block title %}Movie Mentor{% endblock %}
 {% block content %}
-
+<div class="container text-center mt-5">
+    <h1>Get Movie Recommendations</h1>
+    <p class="mt-3">Enter keywords or a brief description of your movie interests. See how our system works.</p>
+    <form action="{{ url_for('views.get_recommendations') }}" method="POST" class="mt-3">
+        <input type="text" name="prompt" class="form-control" placeholder="Enter your movie preferences..." required>
+        <button type="submit" class="btn btn-primary mt-3">Get Recommendations</button>
+    </form>
+</div>
 {% endblock %}

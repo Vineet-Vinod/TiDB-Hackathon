@@ -11,11 +11,14 @@ def home():
 
 @views.route("/welcome")
 def welcome():
-        return render_template("welcome.html")
+    return render_template("welcome.html")
+
+@views.route("/thankyou")
+def thankyou():
+    return render_template("thankyou.html")
 
 @views.route("/tune-preferences", methods=["GET", "POST"])
 def tune_preferences():
-    # implement a more sophisticated means of choosing movies
     poster_urls = preferenceTuningPosters()
 
     if "tuning_idx" not in session:
@@ -41,4 +44,8 @@ def tune_preferences():
             time.sleep(0.2)
         return render_template("swipe.html", poster_url=poster_url)
     else:
-        return redirect(url_for("views.home"))
+        return redirect(url_for("views.thankyou"))
+    
+@views.route("/get-recommendations", methods=["GET", "POST"])
+def get_recommendations():
+    return render_template("home.html")
