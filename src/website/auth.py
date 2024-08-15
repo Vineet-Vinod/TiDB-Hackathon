@@ -60,7 +60,7 @@ def sign_up():
             db.session.commit()
             login_user(new_user, remember=True)
             flash("Account created!", category="success")
-            return redirect(url_for("views.home"))
+            return redirect(url_for("views.welcome"))
 
     return render_template("signup.html")
 
@@ -105,6 +105,7 @@ def reset_password():
     return render_template("reset-password.html")
 
 def password_authenticator(password: str):
+    return 0 # Used for debugging - be sure to comment out for prod
     if len(password) < 8: return "too short"
     if not re.search(r"[a-z]", password): return "missing a lowercase letter"
     if not re.search(r"[A-Z]", password): return "missing an uppercase letter"

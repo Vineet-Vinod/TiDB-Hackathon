@@ -4,29 +4,79 @@
 <div class="preferences-form container-fluid text-center">
     <form id="preference-form" method="post">
         <input type="hidden" name="response" id="response" value="">
-        <button type="submit" onclick="setResponse('left')" class="btn btn-primary">&#128078;</button>
         <div class="image-container">
-            <img src="{{ image }}" alt="Preference Image" class="img-fluid" id="movie-poster"/>
+            <img src="{{ poster_url }}" alt="Preference Image" class="img-fluid" id="movie-poster"/>
         </div>
-        <button type="submit" onclick="setResponse('right')" class="btn btn-success">&#128077;</button>
+        <button type="submit" class="btn" id="left-btn" onclick="handleClick('left')"><h1>&lt;&lt;</h1></button>
+        <button type="submit" class="btn" id="right-btn" onclick="handleClick('right')"><h1>&gt;&gt;</h1></button>
     </form>
 </div>
-
 <script>
     function setResponse(direction) { document.getElementById('response').value = direction; }
+
+    function createPopupCharacter(btn, char) {
+        var unicodeChar = document.createElement("span");
+        unicodeChar.classList.add("unicode-popup");
+        unicodeChar.innerHTML = char;
+        btn.appendChild(unicodeChar);
+
+        setTimeout(function() {
+            unicodeChar.remove();
+        }, 500);
+    }
+
+    function handleClick(direction) {
+        setResponse(direction);
+
+        var btn = direction === 'left' ? document.getElementById('left-btn') : document.getElementById('right-btn');
+        var char = direction === 'left' ? '&#128078;' : '&#128077;';
+        createPopupCharacter(btn, char);
+    }
 
     document.addEventListener('keydown', function(event) 
     {
         if (event.key === "ArrowLeft") 
         {
             setResponse('left');
+            createPopupCharacter(document.getElementById('left-btn'), '&#128078;');
             document.getElementById('preference-form').submit();
         } 
         else if (event.key === "ArrowRight") 
         {
             setResponse('right');
+            createPopupCharacter(document.getElementById('right-btn'), '&#128077;');
             document.getElementById('preference-form').submit();
         }
     });
 </script>
+<style>
+    .unicode-popup {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 24px;
+        opacity: 0;
+        animation: fadeAway .5s ease-out forwards;
+        pointer-events: none;
+    }
+
+    @keyframes fadeAway {
+        0% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        100% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-100px);
+        }
+    }
+
+    #left-btn, #right-btn {
+        position: relative;
+        margin-left: 20px;
+        margin-right: 20px;
+        cursor: pointer;
+    }
+</style>
 {% endblock %}

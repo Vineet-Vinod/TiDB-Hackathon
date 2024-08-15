@@ -1,21 +1,25 @@
-form
-{
+form {
     margin-top: 2rem;
 }
 
-#movie-poster
-{
-    height: 30rem;
+#movie-poster {
+    max-width: 64%;
+    height: 75vh;
+    max-height: 50rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.04);
+    padding: 20px;
+    overflow: hidden;
+    margin-bottom: 20px;
 }
 
-#preference-form
-{
-    display: flex;
-    justify-content: center;
-    margin: 2rem 0 0 0
+#left-btn:hover h1,
+#left-btn:focus h1 {
+    color: red;
 }
 
-#preference-form *
-{
-    padding: 1rem;
+#right-btn:hover h1,
+#right-btn:focus h1 {
+    color: green;
 }

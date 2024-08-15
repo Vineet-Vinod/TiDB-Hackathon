@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request, flash, session, url_for, redirect
-#from flask_login import login_required, current_user
+from flask_login import login_required, current_user
+from .scripts import preferenceTuningPosters
+import time
 
 views = Blueprint("views", __name__)
 
@@ -7,22 +9,21 @@ views = Blueprint("views", __name__)
 def home():
     return render_template("home.html")
 
+@views.route("/welcome")
+def welcome():
+        return render_template("welcome.html")
+
 @views.route("/tune-preferences", methods=["GET", "POST"])
 def tune_preferences():
     # implement a more sophisticated means of choosing movies
-    if 'preference-posters' not in session or request.method == "GET":
-        session['preference-posters'] = [
-            "https://images.photowall.com/products/51078/movie-poster-jaws.jpg?h=699&q=85",
-            "https://filmartgallery.com/cdn/shop/products/Shrek-Vintage-Movie-Poster-Original-1-Sheet-27x41.jpg?v=1665732097",
-            "https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/black-panther-web.jpg",
-            "https://i.etsystatic.com/18242346/r/il/7ad080/4580913585/il_fullxfull.4580913585_3yhu.jpg",
-            "https://intheposter.com/cdn/shop/products/the-front-line-in-the-poster-1_1600x.jpg?v=1694762475",
-            "https://cdn.prod.website-files.com/6009ec8cda7f305645c9d91b/66a4263d01a185d5ea22eeef_6408f676b5811234c887ca62_top%2520gun%2520maverick-min.png",
-        ]
-    posters = session['preference-posters']
+    poster_urls = preferenceTuningPosters()
+
+    if "tuning_idx" not in session:
+        session["tuning_idx"] = 0
+    if session["tuning_idx"] == len(poster_urls):
+        session["tuning_idx"] = 0
 
     if request.method == "POST":
-
         response = request.form.get("response")
 
         # logic to handle response
@@ -31,20 +32,13 @@ def tune_preferences():
         elif response == "no":
             pass
 
-        if posters:
-            posters.pop(0)
-            session["preference-posters"] = posters
-        
-        if posters:
-            poster = posters[0]
-            print(poster)
-            return render_template("swipe.html", image=poster)
-        else:
-            return redirect(url_for("views.home"))
-    else: # GET request
-        if posters:
-            poster = posters[0]
-            print(poster)
-            return render_template("swipe.html", image=poster)
-        else:
-            return redirect(url_for("views.home"))
+        session['tuning_idx'] += 1
+    
+    idx = session["tuning_idx"]
+    if idx < len(poster_urls):
+        poster_url = poster_urls[idx]
+        if request.method == "POST":
+            time.sleep(0.2)
+        return render_template("swipe.html", poster_url=poster_url)
+    else:
+        return redirect(url_for("views.home"))
