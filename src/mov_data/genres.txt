@@ -2,11 +2,16 @@ Action
 Adventure
 Animation
 Comedy
+Crime
 Documentary
 Drama
-Historical
+Family
+Fantasy
+Film-Noir
 Horror
 Musical
+Mystery
 Romance
-Science Fiction
+Sci-Fi
 Thriller
+Western

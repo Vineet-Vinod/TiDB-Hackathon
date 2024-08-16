@@ -1,8 +1,10 @@
 from sentence_transformers import SentenceTransformer
 from tidb_vector.integrations import TiDBVectorClient
 from imdb import Cinemagoer
-import copy
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
 print("Loading embedding model")
 # Model to create vector embeddings
@@ -19,8 +21,8 @@ def text_to_embedding(text):
 print("Connecting to Vector DB Table")
 vector_store = TiDBVectorClient(
    table_name='movie_plots',
-   connection_string="mysql://3xMre5xoM4BvLzW.root:<PASSWORD>@gateway01.us-west-2.prod.aws.tidbcloud.com:4000/app_main",
-   vector_dimension=embed_model_dims
+   connection_string=os.getenv("CONNECTION_STR"),
+   vector_dimension=int(os.getenv("EMBED_MODEL_DIMS"))
 )
 
 
@@ -39,11 +41,11 @@ def app():
     # To get movie IDs, go to IMDb.com and search for movie
     # Look at URL (sample for Skyfall): https://www.imdb.com/title/tt1074638/
     # The number after the tt, 1074638 here, is the ID
-    seen = set([120338, 109830, 1684562]) 
-    seen_cpy = copy.deepcopy(seen)
+    seen_movs = set([120338, 109830, 1074638])
+    seen = set(["titanic", "forrest gump", "skyfall"]) 
     print("You should watch: ")
 
-    for s in seen_cpy:
+    for s in seen_movs:
         mov = ia.get_movie(s)
         ia.update(mov)
         query = ' '.join(mov["plot"])

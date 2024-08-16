@@ -49,7 +49,13 @@ ia = Cinemagoer()
 genres = ["Action", "Adventure", "Animation", "Comedy", "Crime",
           "Documentary", "Drama", "Family", "Fantasy", "Film-Noir",
           "Horror", "Musical", "Mystery", "Romance", "Sci-Fi", "Thriller", "Western"]
-movie_ids = set() # Local store of movie IDs
+
+# Load movie IDs stored in local file
+with open("../mov_data/movie_ids.txt", "r") as file:
+    stored_ids = file.readlines()
+
+movie_ids = set([int(id) for id in stored_ids]) # Local store of movie IDs
+
 
 for genre in genres:
     print(f"Processing movies in {genre} genre")
@@ -57,10 +63,10 @@ for genre in genres:
     search = ia.get_top50_movies_by_genres(genre) # Get popular movies in genre
     
     for mov in search:
-        ia.update(mov) # Load all movie info
         id = int(ia.get_imdbID(mov)) # Get movie ID
 
         if id not in movie_ids:
+            ia.update(mov) # Load all movie info
             movie_ids.add(id) # Add movie ID to local store
 
             doc = {} # Reset movie data dictionary
@@ -98,5 +104,11 @@ for genre in genres:
         metadatas=[doc["metadata"] for doc in documents],
     )
 
-
 print("Done adding movie data to DBs!")
+
+
+# Add movie IDs written to DB to local file
+print("Writing movie IDs in DB to local file")
+with open("../mov_data/movie_ids.txt", "w") as file:
+    for id in movie_ids:
+        file.write(str(id) + "\n")
