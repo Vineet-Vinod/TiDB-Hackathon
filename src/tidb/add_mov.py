@@ -51,6 +51,7 @@ genres = ["Action", "Adventure", "Animation", "Comedy", "Crime",
 movie_ids = set() # Local store of movie IDs
 
 for genre in genres:
+    print(f"Processing movies in {genre} genre")
     documents = [] # Store movie data for genre
     search = ia.get_top50_movies_by_genres(genre) # Get popular movies in genre
     
