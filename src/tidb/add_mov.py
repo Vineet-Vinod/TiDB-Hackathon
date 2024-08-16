@@ -71,12 +71,22 @@ for genre in genres:
             plot = ' '.join(mov["plot"]) # Store plot embedding
             doc["embedding"] = text_to_embedding(plot)
 
-            doc["metadata"] = { "genres": mov["genres"], "languages": mov["languages"]} # Store movie metadata
+            doc["metadata"] = {} # Store movie metadata
+            genres = "None"
+            langs = "None"
+            try:
+                doc["metadata"]["genres"] = mov["genres"]
+                genres = ','.join(mov["genres"]) # Store all genres in a string
+            except: # If the movie does not have a genres field, skip it without throwing an error
+                pass
+
+            try:
+                doc["metadata"]["languages"] = mov["languages"]
+                langs = ','.join(mov["languages"]) # Store all languages in a string
+            except: # If the movie does not have a languages field, skip it without throwing an error
+                pass
 
             documents.append(doc) # Add movie data dictionary to list
-
-            genres = ','.join(mov["genres"]) # Store all genres in a string
-            langs = ','.join(mov["languages"]) # Store all languages in a string
             connection.cursor().execute("INSERT INTO movies (movieid, title, plot, genres, langs) VALUES (%s, %s, %s, %s, %s)", (doc["id"], doc["title"], plot, genres, langs))
 
     vector_store.insert(
