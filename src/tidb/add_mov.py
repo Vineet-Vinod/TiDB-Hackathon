@@ -17,6 +17,7 @@ connection = mysql.connector.connect(
     user = os.getenv("TIDB_USER"),
     password = os.getenv("TIDB_PASSWORD"),
     database = "app_main",
+    autocommit = True,
     ssl_ca = 'cert.pem'
 )
 
