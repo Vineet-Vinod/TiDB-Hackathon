@@ -41,8 +41,8 @@ def app():
     # To get movie IDs, go to IMDb.com and search for movie
     # Look at URL (sample for Skyfall): https://www.imdb.com/title/tt1074638/
     # The number after the tt, 1074638 here, is the ID
-    seen_movs = set([120338, 109830, 1074638])
-    seen = set(["titanic", "forrest gump", "skyfall"]) 
+    seen_movs = set([1074638])
+    seen = set(["Skyfall"]) 
     print("You should watch: ")
 
     for s in seen_movs:

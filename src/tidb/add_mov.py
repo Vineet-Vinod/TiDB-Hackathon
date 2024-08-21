@@ -67,16 +67,19 @@ for genre in genres:
 
         if id not in movie_ids:
             ia.update(mov) # Load all movie info
+
+            try:
+                plot = ' '.join(mov["plot"]) # Store plot embedding
+            except:
+                continue
+
             movie_ids.add(id) # Add movie ID to local store
 
             doc = {} # Reset movie data dictionary
-
             doc["id"] = id # Store ID
-
             title = mov["title"].lower() # Store title
             doc["title"] = title
 
-            plot = ' '.join(mov["plot"]) # Store plot embedding
             doc["embedding"] = text_to_embedding(plot)
 
             doc["metadata"] = {} # Store movie metadata
