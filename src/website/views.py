@@ -26,7 +26,7 @@ def get_language():
         languages = ','.join(request.form.getlist("languages"))
         genres = ','.join(request.form.getlist("genres"))
 
-        userdata = (session["name"], session["password"], genres, languages)
+        userdata = (session["email"], session["password"], genres, languages)
 
         movies = []
         movie_ids = [15398776, 120338, 110357, 68646, 107290, 1745960, 111161, 468569]
