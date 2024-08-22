@@ -8,6 +8,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+x = 1 / 0 # Error to ensure file does not execute (comment out to run file)
 
 # Connect to Database
 print("Connecting to DB")
@@ -27,7 +28,7 @@ print("Loading embedding model")
 embed_model = SentenceTransformer("all-mpnet-base-v2")
 
 # Generates vector embeddings for the given text
-def text_to_embedding(text):
+def text_to_embedding(text: str) -> list:
     embedding = embed_model.encode(text)
     return embedding.tolist()
 

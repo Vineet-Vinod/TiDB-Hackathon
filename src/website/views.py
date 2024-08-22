@@ -2,27 +2,14 @@ from flask import Blueprint, render_template, request, flash, session, url_for, 
 from flask_login import login_required, current_user
 from .scripts import preferenceTuningPosters
 import time
-from sentence_transformers import SentenceTransformer
-from tidb_vector.integrations import TiDBVectorClient
-from dotenv import load_dotenv
-import os
+from .db_interface import Database     
 
 
-load_dotenv()
-
-embed_model = SentenceTransformer("all-mpnet-base-v2")
-embed_model_dims = embed_model.get_sentence_embedding_dimension()
-
-# Generates vector embeddings for the given text.
-def text_to_embedding(text):
-    embedding = embed_model.encode(text)
-    return embedding.tolist()
-
-
+db = Database()
 views = Blueprint("views", __name__)
 
 @views.route('/')
-def home():
+def home(): # Add a filters option to select genre and languages
     return render_template("home.html")
 
 @views.route("/welcome")
@@ -34,7 +21,7 @@ def thankyou():
     return render_template("thankyou.html")
 
 @views.route("/tune-preferences", methods=["GET", "POST"])
-def tune_preferences():
+def tune_preferences(): # They should get this page only when they create an account
     poster_urls = preferenceTuningPosters()
 
     if "tuning_idx" not in session:
@@ -65,15 +52,7 @@ def tune_preferences():
 @views.route("/get-recommendations", methods=["GET", "POST"])
 def get_recommendations():
     if request.method == "POST":
-        # Connect to Vector Database to retrieve movie recommendations
-        vector_store = TiDBVectorClient(
-        table_name='movie_plots',
-        connection_string=os.getenv("CONNECTION_STR"),
-        vector_dimension=int(os.getenv("EMBED_MODEL_DIMS"))
-        )
         query = request.form["prompt"]
-        query_embedding = text_to_embedding(query)
-        search_result = vector_store.query(query_embedding, k=7)
-        result = [r.document for r in search_result]
+        result = db.get_recommendations(query)
 
     return render_template("home.html", messages=result)

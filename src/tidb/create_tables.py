@@ -8,6 +8,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+x = 1 / 0 # Error to ensure file does not execute (comment out to run file)
 
 # Connect to Database
 print("Connecting to DB")
@@ -31,8 +32,8 @@ with connection.cursor() as cur:
     cur.execute(
         """
         CREATE TABLE users (
-            username VARCHAR(36) PRIMARY KEY NOT NULL,
-            password VARCHAR(24) NOT NULL,
+            username VARCHAR(150) PRIMARY KEY NOT NULL,
+            password VARCHAR(150) NOT NULL,
             genres VARCHAR(150),
             langs VARCHAR(150)
         );
@@ -54,7 +55,7 @@ with connection.cursor() as cur:
     cur.execute(
         """
         CREATE TABLE UserMovies (
-            username VARCHAR(36),
+            username VARCHAR(150),
             movieid INT,
             PRIMARY KEY (username, movieid),
             FOREIGN KEY (username) REFERENCES users(username),

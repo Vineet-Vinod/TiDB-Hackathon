@@ -12,7 +12,7 @@ embed_model = SentenceTransformer("all-mpnet-base-v2")
 embed_model_dims = embed_model.get_sentence_embedding_dimension()
 
 # Generates vector embeddings for the given text.
-def text_to_embedding(text):
+def text_to_embedding(text: str) -> list:
     embedding = embed_model.encode(text)
     return embedding.tolist()
 
@@ -27,7 +27,7 @@ vector_store = TiDBVectorClient(
 
 
 # Print search results
-def print_result(seen: set, result):
+def print_result(seen: set, result: list) -> None:
     for r in result:
       if r.document.lower() not in seen:
         seen.add(r.document.lower())
@@ -35,7 +35,7 @@ def print_result(seen: set, result):
 
 
 # Main application
-def app():
+def app() ->:
     ia = Cinemagoer()
     # Movie IDs of movies you have seen
     # To get movie IDs, go to IMDb.com and search for movie
