@@ -48,4 +48,6 @@ def tune_preferences():
     
 @views.route("/get-recommendations", methods=["GET", "POST"])
 def get_recommendations():
+    if request.method == "POST":
+        query = request.form["prompt"]
     return render_template("home.html")
