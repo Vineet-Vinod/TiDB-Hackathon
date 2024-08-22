@@ -83,7 +83,7 @@ class _Database:
             self.curr_time = int(time.time())
 
         with self.sql_connection.cursor() as cursor:
-            cursor.execute("SELECT password FROM users WHERE username= ?", (username,))
+            cursor.execute("SELECT password FROM users WHERE username = %s", (username,))
             result = cursor.fetchone()
 
             return result[0] if result else None
@@ -103,7 +103,7 @@ class _Database:
             with self.sql_connection.cursor() as cursor:
                 sql_query = """SELECT genres, langs
                                 FROM users
-                                WHERE username = ?"""
+                                WHERE username = %s"""
                 cursor.execute(sql_query, (username,))
                 result = cursor.fetchone()
                 self.curr_time = int(time.time())
