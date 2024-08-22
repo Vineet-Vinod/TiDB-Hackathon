@@ -1,12 +1,11 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from email_validator import validate_email, EmailNotValidError
 import re
-from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
-#from .db_interface import Database     
+from .db_interface import Database     
 
-#db = Database().get_db()
+db = Database().get_db()
 
 auth = Blueprint("auth", __name__)
 
