@@ -31,7 +31,7 @@ def get_language():
         movies = []
         movie_ids = [15398776, 120338, 110357, 68646, 107290, 1745960, 111161, 468569]
         for mov, res in zip(movie_ids, session["responses"]):
-            if res == "yes":
+            if res == "right":
                 movies.append(mov)
 
         db.add_user_data(userdata, tuple(movies))
