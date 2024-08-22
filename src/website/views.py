@@ -30,7 +30,7 @@ def get_language():
 
         movies = []
         movie_ids = [15398776, 120338, 110357, 68646, 107290, 1745960, 111161, 468569]
-        responses = list(set(responses))
+        responses = list(set(session["responses"]))
         responses = sorted(responses, key=lambda x: x[1])
         responses = [r[0] for r in responses]
         for mov, res in zip(movie_ids, responses):
