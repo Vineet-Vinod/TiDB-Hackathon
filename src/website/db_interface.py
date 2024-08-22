@@ -5,7 +5,7 @@ from imdb import Cinemagoer
 from dotenv import load_dotenv
 import os
 import ast
-
+import time
 
 load_dotenv()
 
@@ -24,6 +24,7 @@ class Database:
     
 
 class _Database:
+    curr_time = 0
     embed_model = SentenceTransformer("all-mpnet-base-v2")
     ia = Cinemagoer()
     # Generates vector embeddings for the given text.
@@ -32,13 +33,20 @@ class _Database:
         embedding = _Database.embed_model.encode(text)
         return embedding.tolist()
     
+
     def __init__(self) -> None:
+        self.establish_connection()
+        self.curr_time = int(time.time())
+
+
+    def establish_connection(self) -> None:
         self.sql_connection = mysql.connector.connect(
             host = os.getenv("TIDB_HOST"),
             port = 4000,
             user = os.getenv("TIDB_USER"),
             password = os.getenv("TIDB_PASSWORD"),
             database = "app_main",
+            autocommit = True,
             ssl_ca = os.path.join(os.getcwd(), "website/cert.pem")
         )
 
@@ -48,8 +56,33 @@ class _Database:
             vector_dimension=int(os.getenv("EMBED_MODEL_DIMS"))
         )
 
+
+    def add_user_data(self, data: tuple = None, movies: tuple = None) -> None:
+        if data:
+            if int(time.time()) - self.curr_time > 300:
+                self.sql_connection.close()
+                self.establish_connection()
+                self.curr_time = int(time.time())
+
+            with self.sql_connection.cursor() as cursor:
+                if len(data) == 4:
+                    cursor.execute("INSERT INTO users (username, password, genres, langs) VALUES (%s, %s, %s, %s)", data)
+                    self.curr_time = int(time.time())
+
+                if movies:
+                    insert_usermovies_query = "INSERT INTO UserMovies (username, movieid) VALUES (%s, %s)"
+                    usermovies_values = [(data[0], mov) for mov in movies]
+                    cursor.executemany(insert_usermovies_query, usermovies_values)
+                    self.curr_time = int(time.time())
+
+
     def get_recommendations(self, query: str, username: str = None)  -> list:
         query_embedding = _Database.text_to_embedding(query)
+
+        if int(time.time()) - self.curr_time > 300:
+                self.sql_connection.close()
+                self.establish_connection()
+                self.curr_time = int(time.time())
 
         # Get user preferences - genres, languages from user database
         genres, languages = set(["Drama", "Thriller", "Action"]), set(["Malayalam"])
@@ -60,6 +93,8 @@ class _Database:
                                 WHERE UserName = ?"""
                 cursor.execute(sql_query, (username,))
                 result = cursor.fetchone()
+                self.curr_time = int(time.time())
+                
                 if result:
                     gen, lang = result
                     genres = set(gen.split(","))
