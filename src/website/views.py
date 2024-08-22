@@ -30,12 +30,8 @@ def get_language():
 
         movies = []
         movie_ids = [15398776, 120338, 110357, 68646, 107290, 1745960, 111161, 468569]
-        responses = list(set(session["responses"]))
-        responses = sorted(responses, key=lambda x: x[1])
-        responses = [r[0] for r in responses]
-        for mov, res in zip(movie_ids, responses):
-            if res == "right":
-                movies.append(mov)
+        for res in session["responses"]:
+            movies.append(movie_ids[int(res)])
 
         db.add_user_data(userdata, tuple(movies))
 
@@ -57,7 +53,7 @@ def tune_preferences(): # They should get this page only when they create an acc
 
     if request.method == "POST":
         response = request.form.get("response")
-        session["responses"].append((response, session["tuning_idx"]))
+        session["responses"].append(session["tuning_idx"])
         session['tuning_idx'] += 1
     
     idx = session["tuning_idx"]
