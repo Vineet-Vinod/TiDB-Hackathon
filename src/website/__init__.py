@@ -25,14 +25,14 @@ def createApp():
         # register database models
         from .models import User
         with app.app_context():
-                #'''
+                '''
                 # deletes all contents of the database
                 with db.engine.connect() as con:
                         trans = con.begin()
                         for table in db.metadata.sorted_tables: 
                                 con.execute(table.delete())
                         trans.commit()
-                #'''
+                '''
                 db.create_all()
 
         login_manager = LoginManager()
