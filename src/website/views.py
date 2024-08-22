@@ -60,8 +60,6 @@ def tune_preferences(): # They should get this page only when they create an acc
     idx = session["tuning_idx"]
     if idx < len(poster_urls):
         poster_url = poster_urls[idx]
-        if request.method == "POST":
-            time.sleep(0.2)
         return render_template("swipe.html", poster_url=poster_url)
     else:
         return redirect(url_for("views.get_language"))
