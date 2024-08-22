@@ -25,8 +25,6 @@ def get_language():
     if request.method == "POST":
         languages = ' '.join(request.form.getlist("languages"))
         genres = ' '.join(request.form.getlist("genres"))
-        current_user.languages = languages
-        current_user.genres = genres
 
         return redirect(url_for("views.thankyou"))
 
