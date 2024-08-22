@@ -53,7 +53,8 @@ def tune_preferences(): # They should get this page only when they create an acc
 
     if request.method == "POST":
         response = request.form.get("response")
-        session["responses"].append(session["tuning_idx"])
+        if response == "right":
+            session["responses"].append(session["tuning_idx"])
         session['tuning_idx'] += 1
     
     idx = session["tuning_idx"]
