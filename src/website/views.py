@@ -5,7 +5,7 @@ import time
 from .db_interface import Database     
 
 
-db = Database()
+db = Database().get_db()
 views = Blueprint("views", __name__)
 
 @views.route('/')

@@ -10,12 +10,26 @@ import ast
 load_dotenv()
 
 class Database:
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls, *args, **kwargs)
+            cls._instance.db = _Database()
+        return cls._instance
+
+    @classmethod
+    def get_db(cls):
+        return cls._instance.db
+    
+
+class _Database:
     embed_model = SentenceTransformer("all-mpnet-base-v2")
     ia = Cinemagoer()
     # Generates vector embeddings for the given text.
     @staticmethod
     def text_to_embedding(text: str) -> list:
-        embedding = Database.embed_model.encode(text)
+        embedding = _Database.embed_model.encode(text)
         return embedding.tolist()
     
     def __init__(self) -> None:
@@ -35,7 +49,7 @@ class Database:
         )
 
     def get_recommendations(self, query: str, username: str = None)  -> list:
-        query_embedding = Database.text_to_embedding(query)
+        query_embedding = _Database.text_to_embedding(query)
 
         # Get user preferences - genres, languages from user database
         genres, languages = set(["Drama", "Thriller", "Action"]), set(["Malayalam"])
@@ -65,4 +79,4 @@ class Database:
         
 
 if __name__ == "__main__":
-    db = Database()
+    pass
