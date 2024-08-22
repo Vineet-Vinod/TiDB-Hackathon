@@ -4,9 +4,9 @@ import re
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
-from .db_interface import Database     
+#from .db_interface import Database     
 
-db = Database().get_db()
+#db = Database().get_db()
 
 auth = Blueprint("auth", __name__)
 
@@ -58,10 +58,10 @@ def sign_up():
             flash("Passwords do not match.", category="invalid-input")
         else:
             new_user = User(email=email, name=name, password=generate_password_hash(password, method="pbkdf2:sha1"))
-            db.session.add(new_user)
-            db.session.commit()
             login_user(new_user, remember=True)
             flash("Account created!", category="success")
+            session["name"] = name
+            session["password"] = password
             return redirect(url_for("views.welcome"))
 
     return render_template("signup.html")
@@ -78,7 +78,6 @@ def reset_password():
         email = request.form.get("email")
         new_password = request.form.get("password")
         password_confirm = request.form.get("confirm")
-
         valid_email = True
         password_error = password_authenticator(new_password)
 
@@ -100,7 +99,6 @@ def reset_password():
             flash("Passwords do not match.", category="invalid-input")
         else:
             user.password = generate_password_hash(new_password, method="pbkdf2:sha1")
-            db.session.commit()
             flash("Password reset successfully!", category="success")
             return redirect(url_for("auth.login"))
 
