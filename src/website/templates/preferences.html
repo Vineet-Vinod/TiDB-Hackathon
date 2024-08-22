@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Preferences - Movie Mentor{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Select Your Preferences</h2>
+    <form method="post" action="/get-language">
+        <div class="form-group">
+            <h5 for="languages">Languages</h5>
+            <select id="languages" name="languages" class="form-control pref-form-control" multiple style="height: 200px;">
+                <option value="english">English</option>
+                <option value="hindi">Hindi</option>
+                <option value="kannada">Kannada</option>
+                <option value="malayalam">Malayalam</option>
+                <option value="tamil">Tamil</option>
+                <option value="telugu">Telugu</option>
+                <option value="french">French</option>
+                <option value="german">German</option>
+                <option value="spanish">Spanish</option>
+                <option value="italian">Italian</option>
+                <option value="portuguese">Portuguese</option>
+                <option value="mandarin">Mandarin</option>
+                <option value="japanese">Japanese</option>
+                <option value="korean">Korean</option>                
+            </select>
+            <small class="form-text text-muted">Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options.</small>
+        </div>
+        <div class="form-group">
+            <h5 for="genres">Genres</h5>
+            <select id="genres" name="genres" class="form-control pref-form-control" multiple style="height: 200px;">
+                <option value="Action">Action</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Animation">Animation</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Crime">Crime</option> 
+                <option value="Documentary">Documentary</option>
+                <option value="Drama">Drama</option>
+                <option value="Family">Family</option>
+                <option value="Fantasy">Fantasy</option>
+                <option value="Film-Noir">Film-Noir</option>
+                <option value="Horror">Horror</option>
+                <option value="Musical">Musical</option>
+                <option value="Mystery">Mystery</option>
+                <option value="Romance">Romance</option>
+                <option value="Sci-Fi">Sci-Fi</option>
+                <option value="Thriller">Thriller</option>
+                <option value="Western">Western</option>
+            </select>
+            <small class="form-text text-muted">Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options.</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Preferences</button>
+    </form>
+</div>
+{% endblock %}

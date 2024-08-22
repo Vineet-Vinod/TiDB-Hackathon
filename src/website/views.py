@@ -4,8 +4,8 @@ from .scripts import preferenceTuningPosters
 import time
 from .db_interface import Database     
 
-
 db = Database().get_db()
+
 views = Blueprint("views", __name__)
 
 @views.route('/')
@@ -20,6 +20,19 @@ def welcome():
 def thankyou():
     return render_template("thankyou.html")
 
+@views.route("/get-language", methods=["GET", "POST"])
+def get_language():
+    if request.method == "POST":
+        languages = ' '.join(request.form.getlist("languages"))
+        genres = ' '.join(request.form.getlist("genres"))
+        current_user.languages = languages
+        current_user.genres = genres
+
+        return redirect(url_for("views.thankyou"))
+
+    return render_template("preferences.html")
+
+
 @views.route("/tune-preferences", methods=["GET", "POST"])
 def tune_preferences(): # They should get this page only when they create an account
     poster_urls = preferenceTuningPosters()
@@ -31,13 +44,6 @@ def tune_preferences(): # They should get this page only when they create an acc
 
     if request.method == "POST":
         response = request.form.get("response")
-
-        # logic to handle response
-        if response == "yes":
-            pass
-        elif response == "no":
-            pass
-
         session['tuning_idx'] += 1
     
     idx = session["tuning_idx"]
@@ -47,7 +53,7 @@ def tune_preferences(): # They should get this page only when they create an acc
             time.sleep(0.2)
         return render_template("swipe.html", poster_url=poster_url)
     else:
-        return redirect(url_for("views.thankyou"))
+        return redirect(url_for("views.get_language"))
     
 @views.route("/get-recommendations", methods=["GET", "POST"])
 def get_recommendations():
@@ -55,4 +61,4 @@ def get_recommendations():
         query = request.form["prompt"]
         result = db.get_recommendations(query)
 
-    return render_template("home.html", messages=result)
+    return render_template("preferences.html", messages=result)
