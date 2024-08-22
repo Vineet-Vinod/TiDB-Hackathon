@@ -57,7 +57,7 @@ def sign_up():
             flash("Passwords do not match.", category="invalid-input")
         else:
             flash("Account created!", category="success")
-            session["name"] = name
+            session["email"] = email
             session["password"] = password
             return redirect(url_for("views.welcome"))
 
