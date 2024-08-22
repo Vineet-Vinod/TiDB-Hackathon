@@ -78,12 +78,6 @@ def reset_password():
         valid_email = True
         password_error = password_authenticator(new_password)
 
-        try:
-            email_info = validate_email(email, check_deliverability=False)
-            email = email_info.normalized
-        except EmailNotValidError as e:
-            valid_email = False
-
         user = db.get_user_data(email)
 
         if not user:

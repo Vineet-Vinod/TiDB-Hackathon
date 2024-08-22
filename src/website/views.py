@@ -70,4 +70,4 @@ def get_recommendations():
         query = request.form["prompt"]
         result = db.get_recommendations(query)
 
-    return render_template("preferences.html", messages=result)
+    return render_template("home.html", messages=result)
