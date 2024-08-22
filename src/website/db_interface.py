@@ -76,6 +76,19 @@ class _Database:
                     self.curr_time = int(time.time())
 
 
+    def get_user_data(self, username: str) -> str | None:
+        if int(time.time()) - self.curr_time > 300:
+            self.sql_connection.close()
+            self.establish_connection()
+            self.curr_time = int(time.time())
+
+        with self.sql_connection.cursor() as cursor:
+            cursor.execute("SELECT password FROM users WHERE username= ?", (username,))
+            result = cursor.fetchone()
+
+            return result[0] if result else None
+
+
     def get_recommendations(self, query: str, username: str = None)  -> list:
         query_embedding = _Database.text_to_embedding(query)
 
@@ -88,13 +101,13 @@ class _Database:
         genres, languages = set(["Drama", "Thriller", "Action"]), set(["Malayalam"])
         if username:
             with self.sql_connection.cursor() as cursor:
-                sql_query = """SELECT Genres, Languages
-                                FROM Users
-                                WHERE UserName = ?"""
+                sql_query = """SELECT genres, langs
+                                FROM users
+                                WHERE username = ?"""
                 cursor.execute(sql_query, (username,))
                 result = cursor.fetchone()
                 self.curr_time = int(time.time())
-                
+
                 if result:
                     gen, lang = result
                     genres = set(gen.split(","))
