@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from email_validator import validate_email, EmailNotValidError
 import re
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from .db_interface import Database     
 
@@ -15,12 +14,11 @@ def login():
         email = request.form.get("email")
         password = request.form.get("password")
 
-        user = db.get_user_data(email)
+        pw = db.get_user_data(email)
 
-        if user:
-            if check_password_hash(user, password):
+        if pw:
+            if pw == password:
                 flash("Logged in successfully!", category="success")
-                login_user(user, remember=True)
                 return redirect(url_for("views.home"))
             else:
                 flash("Incorrect password, try again.", category="error")
@@ -89,7 +87,6 @@ def reset_password():
         elif new_password != password_confirm:
             flash("Passwords do not match.", category="invalid-input")
         else:
-            user.password = generate_password_hash(new_password, method="pbkdf2:sha1")
             flash("Password reset successfully!", category="success")
             return redirect(url_for("auth.login"))
 
