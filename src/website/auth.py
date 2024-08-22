@@ -15,7 +15,7 @@ def login():
         email = request.form.get("email")
         password = request.form.get("password")
 
-        user = User.query.filter_by(email=email).first()
+        user = db.get_user_data(email)
 
         if user:
             if check_password_hash(user.password, password):
@@ -46,7 +46,7 @@ def sign_up():
         except EmailNotValidError as e:
             valid_email = False
         
-        user = User.query.filter_by(email=email).first()
+        user = db.get_user_data(email)
         if user:
             flash("Email already exists, try logging in instead.", category="error")
         elif not valid_email:
@@ -56,8 +56,6 @@ def sign_up():
         elif password != password_confirm:
             flash("Passwords do not match.", category="invalid-input")
         else:
-            new_user = User(email=email, name=name, password=generate_password_hash(password, method="pbkdf2:sha1"))
-            login_user(new_user, remember=True)
             flash("Account created!", category="success")
             session["name"] = name
             session["password"] = password
@@ -86,8 +84,8 @@ def reset_password():
         except EmailNotValidError as e:
             valid_email = False
 
-        user = User.query.filter_by(email=email).first()
-        
+        user = db.get_user_data(email)
+
         if not user:
             flash("Email does not exist.", category="error")
         elif not valid_email:
