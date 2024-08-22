@@ -8,6 +8,9 @@
         <input type="text" name="prompt" class="form-control" placeholder="Enter your movie preferences..." required>
         <button type="submit" class="btn btn-primary mt-3">Get Recommendations</button>
     </form>
+    {% for msg in messages %}
+        <p>{{msg}}</p>
+    {% endfor %}
 </div>
 <style>
     #homepage-text {
