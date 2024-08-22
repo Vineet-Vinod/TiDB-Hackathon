@@ -2,9 +2,9 @@ from flask import Blueprint, render_template, request, flash, session, url_for, 
 from flask_login import login_required, current_user
 from .scripts import preferenceTuningPosters
 import time
-from .db_interface import Database     
+#from .db_interface import Database     
 
-db = Database().get_db()
+#db = Database().get_db()
 
 views = Blueprint("views", __name__)
 
@@ -23,10 +23,18 @@ def thankyou():
 @views.route("/get-language", methods=["GET", "POST"])
 def get_language():
     if request.method == "POST":
-        languages = ' '.join(request.form.getlist("languages"))
-        genres = ' '.join(request.form.getlist("genres"))
-        current_user.languages = languages
-        current_user.genres = genres
+        languages = ','.join(request.form.getlist("languages"))
+        genres = ','.join(request.form.getlist("genres"))
+
+        userdata = (session["name"], session["password"], genres, languages)
+
+        movies = []
+        movie_ids = [15398776, 120338, 110357, 68646, 107290, 1745960, 111161, 468569]
+        for mov, res in zip(movie_ids, session["responses"]):
+            if res == "yes":
+                movies.append(mov)
+
+        db.add_user_data(userdata, movies)
 
         return redirect(url_for("views.thankyou"))
 
@@ -36,6 +44,8 @@ def get_language():
 @views.route("/tune-preferences", methods=["GET", "POST"])
 def tune_preferences(): # They should get this page only when they create an account
     poster_urls = preferenceTuningPosters()
+    if not session["responses"]:
+        session["responses"] = []
 
     if "tuning_idx" not in session:
         session["tuning_idx"] = 0
@@ -44,6 +54,7 @@ def tune_preferences(): # They should get this page only when they create an acc
 
     if request.method == "POST":
         response = request.form.get("response")
+        session["responses"].append(response)
         session['tuning_idx'] += 1
     
     idx = session["tuning_idx"]
