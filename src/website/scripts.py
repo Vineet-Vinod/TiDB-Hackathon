@@ -1,5 +1,5 @@
+# List of url's to posters used for preference tuning
 def preferenceTuningPosters():
-    # will need to implement a more sophisticated algorithm here
     return [
         "https://imgs.search.brave.com/fw3zN0uOwFKoIAcsjUK27eyBalIZfrzu55vnQ-pYgqg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzgxYUhldUowQ0dM/LmpwZw",
         "https://imgs.search.brave.com/bY-g_9l2aRiMqh5v4U8ZNOXSjyLS50eT6Sqc9qp9kA4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9oaXBz/LmhlYXJzdGFwcHMu/Y29tL2htZy1wcm9k/L2ltYWdlcy90aXRh/bmljLWZhY3RzLW1v/dmllLXBvc3Rlci0x/NTEyNjY0MjQ2Lmpw/Zz9jcm9wPTAuOTQ1/eHc6MC45NTV4aDsw/LjAyODd4dywwLjAx/Njd4aCZyZXNpemU9/OTgwOio",
