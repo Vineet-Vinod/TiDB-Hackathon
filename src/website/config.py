@@ -1,1 +1,1 @@
-USE_TIDB = False
+USE_TIDB = True

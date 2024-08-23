@@ -81,7 +81,7 @@ for genre in genres:
             title = mov["title"].lower() # Store title
             doc["title"] = title
 
-            doc["embedding"] = text_to_embedding(plot)
+            doc["embedding"] = text_to_embedding(plot) # Get plot embedding
 
             doc["metadata"] = {} # Store movie metadata
             genres = "None"
@@ -99,6 +99,7 @@ for genre in genres:
                 pass
 
             documents.append(doc) # Add movie data dictionary to list
+            # Add movie data to SQL database
             connection.cursor().execute("INSERT INTO movies (movieid, title, plot, genres, langs) VALUES (%s, %s, %s, %s, %s)", (doc["id"], doc["title"], plot, genres, langs))
 
     vector_store.insert(
@@ -106,7 +107,7 @@ for genre in genres:
         texts=[doc["title"] for doc in documents],
         embeddings=[doc["embedding"] for doc in documents],
         metadatas=[doc["metadata"] for doc in documents],
-    )
+    ) # Insert data for all movies of current genre into vector database
 
 print("Done adding movie data to DBs!")
 

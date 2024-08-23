@@ -23,7 +23,7 @@ connection = mysql.connector.connect(
 )
 
 
-# Create Tables to store users and movie data
+# Create Tables to store users, movies and movies watched by each user (junction table)
 print("Creating Tables")
 with connection.cursor() as cur:
     cur.execute("DROP TABLE IF EXISTS UserMovies;")

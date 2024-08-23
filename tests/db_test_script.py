@@ -9,15 +9,13 @@ load_dotenv()
 print("Loading embedding model")
 # Model to create vector embeddings
 embed_model = SentenceTransformer("all-mpnet-base-v2")
-embed_model_dims = embed_model.get_sentence_embedding_dimension()
 
 # Generates vector embeddings for the given text.
 def text_to_embedding(text: str) -> list:
     embedding = embed_model.encode(text)
     return embedding.tolist()
 
-
-# Connect to Vector Database to store movie plots
+# Connect to Vector Database to retrieve movie plots
 print("Connecting to Vector DB Table")
 vector_store = TiDBVectorClient(
    table_name='movie_plots',
@@ -25,14 +23,12 @@ vector_store = TiDBVectorClient(
    vector_dimension=int(os.getenv("EMBED_MODEL_DIMS"))
 )
 
-
 # Print search results
 def print_result(seen: set, result: list) -> None:
     for r in result:
       if r.document.lower() not in seen:
         seen.add(r.document.lower())
         print(f"\"{r.document}\"", end=", ")
-
 
 # Main application
 def app() -> None:

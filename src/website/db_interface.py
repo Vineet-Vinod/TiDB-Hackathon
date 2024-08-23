@@ -72,6 +72,18 @@ class _Database:
                     self.curr_time = int(time.time())
 
 
+    def update_password(self, username: str, password: str) -> None:
+        if int(time.time()) - self.curr_time > 300:
+            self.sql_connection.close()
+            self.establish_connection()
+            self.curr_time = int(time.time())
+
+        with self.sql_connection.cursor() as cursor:
+            update_password_query = "UPDATE users SET password = %s WHERE username = %s"
+            cursor.execute(update_password_query, (password, username))
+            self.curr_time = int(time.time())
+
+
     def get_user_data(self, username: str) -> str | None:
         if int(time.time()) - self.curr_time > 300:
             self.sql_connection.close()
@@ -125,6 +137,13 @@ class _Database:
         
         return recommendations
         
-    def get_movie_url(self, movieid: int) -> str:
+    def get_movie_url(self, movieid: int) -> tuple:
         movie = self.ia.get_movie(movieid)
-        return movie["cover url"]
+        poster_url = None
+        
+        try:
+            poster_url = movie["cover url"]
+        except:
+            pass
+
+        return (poster_url, movie["title"], movie["plot"])
