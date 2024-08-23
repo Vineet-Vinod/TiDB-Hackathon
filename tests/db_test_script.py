@@ -35,7 +35,7 @@ def print_result(seen: set, result: list) -> None:
 
 
 # Main application
-def app() ->:
+def app() -> None:
     ia = Cinemagoer()
     # Movie IDs of movies you have seen
     # To get movie IDs, go to IMDb.com and search for movie
