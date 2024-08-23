@@ -68,6 +68,6 @@ def tune_preferences(): # They should get this page only when they create an acc
 def get_recommendations():
     if request.method == "POST":
         query = request.form["prompt"]
-        result = db.get_recommendations(query)
+        result = db.get_recommendations(query, session["email"])
 
     return render_template("home.html", messages=result)
