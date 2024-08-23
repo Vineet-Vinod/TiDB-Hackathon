@@ -93,4 +93,7 @@ def get_recommendations():
 
     idx = session["choosing_idx"] % len(choosing_urls)
     poster_url = choosing_urls[idx]
-    return render_template("swipe.html", poster_url=poster_url, show_details=True, movie_title=choosing_movies[idx][1], movie_plot=choosing_movies[idx][2])
+    if request.method == "POST"
+        return render_template("swipe.html", poster_url=poster_url, show_details=True, movie_title=choosing_movies[idx][1], movie_plot=choosing_movies[idx][2])
+    else:
+        return render_template("home.html")
