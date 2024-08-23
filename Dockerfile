@@ -15,6 +15,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire src directory into the container at /app/src
 COPY src/ ./src
 
-# Expose the port that the Flask app will run on
+# Set Flask App Configs
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
 EXPOSE 5000
-CMD ["python", "src/app.py"]
+
+WORKDIR /app/src
+CMD ["flask", "run"]
