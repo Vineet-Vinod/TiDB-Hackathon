@@ -1,14 +1,23 @@
 {% extends "base.html" %} 
 {% block title %}AiMo{% endblock %}
 {% block content %}
-<div class="preferences-form container-fluid text-center">
-    <form id="preference-form" method="post">
-        <input type="hidden" name="response" id="response" value="">
-        <div class="image-container">
-            <img src="{{ poster_url }}" alt="Preference Image" class="img-fluid" id="movie-poster"/>
+<div class="preferences-form container-fluid d-flex flex-column align-items-center">
+    <form id="preference-form" method="post" class="d-flex flex-column align-items-center">
+        <div class="d-flex align-items-center" style="max-width: 100%; position: relative;">
+            <div class="image-container">
+                <img src="{{ poster_url }}" alt="Preference Image" class="img-fluid" id="movie-poster" style="aspect-ratio: 1;"/>
+            </div>
+            {% if show_details %}
+            <div class="movie-details">
+                <h2>{{ movie_title }}</h2>
+                <p>{{ movie_plot }}</p>
+            </div>
+            {% endif %}
         </div>
-        <button type="submit" class="btn" id="left-btn" onclick="handleClick('left')"><h1>&lt;&lt;</h1></button>
-        <button type="submit" class="btn" id="right-btn" onclick="handleClick('right')"><h1>&gt;&gt;</h1></button>
+        <div class="d-flex mt-4">
+            <button type="submit" class="btn" id="left-btn" onclick="handleClick('left')"><h1>&lt;&lt;</h1></button>
+            <button type="submit" class="btn" id="right-btn" onclick="handleClick('right')"><h1>&gt;&gt;</h1></button>
+        </div>
     </form>
 </div>
 <script>
@@ -76,6 +85,18 @@
         margin-left: 20px;
         margin-right: 20px;
         cursor: pointer;
+    }
+
+    .movie-details {
+        position: relative;
+        left: -8rem;
+        padding: 10px;
+        border-radius: 5px;
+        max-width: 300px;
+    }
+
+    .d-flex {
+        position: relative;
     }
 </style>
 {% endblock %}
