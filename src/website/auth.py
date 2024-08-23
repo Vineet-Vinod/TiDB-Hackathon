@@ -18,6 +18,7 @@ def login():
 
         if pw:
             if pw == password:
+                session["email"] = email
                 flash("Logged in successfully!", category="success")
                 return redirect(url_for("views.home"))
             else:
