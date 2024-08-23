@@ -137,7 +137,7 @@ class _Database:
         
         return recommendations
         
-    def get_movie_url(self, movieid: int) -> tuple:
+    def get_movie_data(self, movieid: int) -> tuple:
         movie = self.ia.get_movie(movieid)
         poster_url = None
         

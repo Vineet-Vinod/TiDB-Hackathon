@@ -3,7 +3,7 @@ from .scripts import preferenceTuningPosters
 from .config import USE_TIDB
 if USE_TIDB:
     from .db_interface import Database     
-    db = Database().get_db()
+    db = Database()
 
 views = Blueprint("views", __name__)
 

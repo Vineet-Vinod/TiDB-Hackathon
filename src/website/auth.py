@@ -4,7 +4,7 @@ import re
 from .config import USE_TIDB
 if USE_TIDB:
     from .db_interface import Database     
-    db = Database().get_db()
+    db = Database()
 
 auth = Blueprint("auth", __name__)
 
