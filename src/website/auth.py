@@ -74,7 +74,7 @@ def sign_up():
 
 @auth.route("/logout")
 def logout():
-    session.pop("loggedin", None)
+    session.clear()
     return redirect(url_for("auth.login"))
 
 @auth.route("/reset-password", methods=["GET", "POST"])
