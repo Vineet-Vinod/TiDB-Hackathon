@@ -74,10 +74,14 @@ def get_recommendations():
     if request.method == "POST":
         if "prompt" in request.form:
             query = request.form["prompt"]
-            if session["email"]:
-                choosing_movies = [db.get_movie_data(r) for r in db.get_recommendations(query, session["email"])]
-            else:
-                choosing_movies = [db.get_movie_data(r) for r in db.get_recommendations(query, "")]
+            username = None
+
+            try:
+                username = session["email"]
+            except:
+                pass
+
+            choosing_movies = [db.get_movie_data(r) for r in db.get_recommendations(query, username)]
             choosing_urls = [r[0] for r in choosing_movies]
 
     if "choosing_idx" not in session:
@@ -93,7 +97,7 @@ def get_recommendations():
 
     idx = session["choosing_idx"] % len(choosing_urls)
     poster_url = choosing_urls[idx]
-    if request.method == "POST"
+    if request.method == "POST":
         return render_template("swipe.html", poster_url=poster_url, show_details=True, movie_title=choosing_movies[idx][1], movie_plot=choosing_movies[idx][2])
     else:
         return render_template("home.html")

@@ -93,7 +93,14 @@ class _Database:
                 self.curr_time = int(time.time())
 
         # Get user preferences - genres, languages from user database
-        genres, languages = set(), set()
+        genres = set(["Action", "Adventure", "Animation", "Comedy",
+                      "Crime", "Documentary", "Drama", "Family", "Fantasy",
+                      "Film-Noir", "Horror", "Musical", "Mystery", "Romance", "Sci-Fi", 
+                      "Thriller", "Western"])
+        languages = set(["English", "Hindi", "Kannada", "Malayalam", "Tamil", 
+                         "Telugu", "French", "German", "Spanish", "Italian",
+                          "Portuguese", "Mandarin", "Japanese", "Korean"])
+        
         if username:
             with self.sql_connection.cursor() as cursor:
                 sql_query = """SELECT genres, langs
