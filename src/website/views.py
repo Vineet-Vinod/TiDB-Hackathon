@@ -74,7 +74,7 @@ def get_recommendations():
     if request.method == "POST":
         if "prompt" in request.form:
             query = request.form["prompt"]
-            choosing_urls = preferenceTuningPosters()
+            choosing_urls = db.get_movie_data([r[0] for r in db.get_recommendations(query, session["email"])])
 
     if "choosing_idx" not in session:
         session["choosing_idx"] = 0
