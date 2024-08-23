@@ -133,4 +133,4 @@ class _Database:
         except:
             pass
 
-        return (poster_url, movie["title"], movie["plot"])
+        return (poster_url, movie["title"], ' '.join(movie["plot"]))
