@@ -98,7 +98,7 @@ class _Database:
                 self.curr_time = int(time.time())
 
         # Get user preferences - genres, languages from user database
-        genres, languages = set(["Drama", "Thriller", "Action"]), set(["Malayalam"])
+        genres, languages = set(), set()
         if username:
             with self.sql_connection.cursor() as cursor:
                 sql_query = """SELECT genres, langs
@@ -118,10 +118,14 @@ class _Database:
         recommendations = []
         for result in search_result:
             res_dict = ast.literal_eval(str(result.metadata))
-            mov_genres = set(res_dict.get('genres'))
-            mov_languages = set(res_dict.get('languages'))
+
+            mov_genres = res_dict.get('genres')
+            mov_genres = (set(mov_genres) if mov_genres else set())
+            mov_languages = res_dict.get('languages')
+            mov_languages = (set(languages) if mov_languages else set())
+
             if genres.intersection(mov_genres) and languages.intersection(mov_languages):
-                recommendations.append(result.document)
+                recommendations.append(int(result.id))
         
         return recommendations
         
