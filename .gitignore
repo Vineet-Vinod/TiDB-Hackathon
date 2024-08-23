@@ -1,2 +1,8 @@
 src/__pycache__
 src/website/__pycache__
+tests/.env
+tests/cert.pem
+tidb/.env
+tidb/cert.pem
+website/.env
+website/cert.pem
