@@ -4,7 +4,7 @@ from .scripts import preferenceTuningPosters
 import time
 from .db_interface import Database     
 
-db = Database().get_db()
+db = Database()
 
 views = Blueprint("views", __name__)
 

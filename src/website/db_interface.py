@@ -16,12 +16,8 @@ class Database:
         if cls._instance is None:
             cls._instance = super().__new__(cls, *args, **kwargs)
             cls._instance.db = _Database()
-        return cls._instance
-
-    @classmethod
-    def get_db(cls):
         return cls._instance.db
-    
+
 
 class _Database:
     curr_time = 0
@@ -132,6 +128,3 @@ class _Database:
     def get_movie_url(self, movieid: int) -> str:
         movie = self.ia.get_movie(movieid)
         return movie["cover url"]
-
-if __name__ == "__main__":
-    pass

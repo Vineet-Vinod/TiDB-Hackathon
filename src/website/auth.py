@@ -4,7 +4,7 @@ import re
 from flask_login import login_user, login_required, logout_user, current_user
 from .db_interface import Database     
 
-db = Database().get_db()
+db = Database()
 
 auth = Blueprint("auth", __name__)
 
