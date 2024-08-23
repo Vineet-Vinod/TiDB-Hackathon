@@ -1,5 +1,5 @@
 {% extends "base.html" %} 
-{% block title %}Tune Your Preferences{% endblock %}
+{% block title %}AiMo{% endblock %}
 {% block content %}
 <div class="preferences-form container-fluid text-center">
     <form id="preference-form" method="post">
@@ -27,7 +27,6 @@
 
     function handleClick(direction) {
         setResponse(direction);
-
         var btn = direction === 'left' ? document.getElementById('left-btn') : document.getElementById('right-btn');
         var char = direction === 'left' ? '&#128078;' : '&#128077;';
         createPopupCharacter(btn, char);

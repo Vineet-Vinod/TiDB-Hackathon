@@ -1,15 +1,20 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from email_validator import validate_email, EmailNotValidError
 import re
-from flask_login import login_user, login_required, logout_user, current_user
-from .db_interface import Database     
-
-db = Database().get_db()
+from .config import USE_TIDB
+if USE_TIDB:
+    from .db_interface import Database     
+    db = Database().get_db()
 
 auth = Blueprint("auth", __name__)
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():
+    if not USE_TIDB and request.method == "POST":
+        session["loggedin"] = True
+        flash("Logged in successfully!", category="success")
+        return redirect(url_for("views.home"))
+
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
@@ -18,6 +23,7 @@ def login():
 
         if pw:
             if pw == password:
+                session["loggedin"] = True
                 flash("Logged in successfully!", category="success")
                 return redirect(url_for("views.home"))
             else:
@@ -29,6 +35,10 @@ def login():
 
 @auth.route("/sign-up", methods=["GET", "POST"])
 def sign_up():
+    if not USE_TIDB and request.method == "POST":
+        flash("Account created!", category="success")
+        return redirect(url_for("views.welcome"))
+    
     if request.method == "POST":
         email = request.form.get("email")
         name = request.form.get("name")
@@ -62,9 +72,8 @@ def sign_up():
     return render_template("signup.html")
 
 @auth.route("/logout")
-@login_required
 def logout():
-    logout_user()
+    session.pop("loggedin", None)
     return redirect(url_for("auth.login"))
 
 @auth.route("/reset-password", methods=["GET", "POST"])

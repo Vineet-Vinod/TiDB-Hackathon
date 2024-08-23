@@ -1,16 +1,19 @@
 from flask import Blueprint, render_template, request, flash, session, url_for, redirect
-from flask_login import login_required, current_user
 from .scripts import preferenceTuningPosters
-import time
-from .db_interface import Database     
-
-db = Database().get_db()
+from .config import USE_TIDB
+if USE_TIDB:
+    from .db_interface import Database     
+    db = Database().get_db()
 
 views = Blueprint("views", __name__)
 
 @views.route('/')
-def home(): # Add a filters option to select genre and languages
-    return render_template("home.html")
+def home():
+    return render_template("preferences.html")
+
+@views.route('/info')
+def info():
+    return render_template("info.html")
 
 @views.route("/welcome")
 def welcome():
@@ -63,9 +66,27 @@ def tune_preferences(): # They should get this page only when they create an acc
         return render_template("swipe.html", poster_url=poster_url)
     else:
         return redirect(url_for("views.get_language"))
-    
+
+choosing_urls = []
 @views.route("/get-recommendations", methods=["GET", "POST"])
 def get_recommendations():
+    global choosing_urls
     if request.method == "POST":
-        query = request.form["prompt"]
-        results = db.get_recommendations(query, session["email"])
+        if "prompt" in request.form:
+            query = request.form["prompt"]
+            choosing_urls = preferenceTuningPosters()
+
+    if "choosing_idx" not in session:
+        session["choosing_idx"] = 0
+    if session["choosing_idx"] == len(choosing_urls):
+        session["choosing_idx"] = 0
+    
+    if request.method == "POST":
+        response = request.form.get("response")
+        if response == "right":
+            return render_template("home.html")
+        session["choosing_idx"] += 1
+
+    idx = session["choosing_idx"] % len(choosing_urls)
+    poster_url = choosing_urls[idx]
+    return render_template("swipe.html", poster_url=poster_url)
