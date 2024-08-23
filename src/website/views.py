@@ -68,20 +68,18 @@ def tune_preferences(): # They should get this page only when they create an acc
         return redirect(url_for("views.get_language"))
 
 choosing_urls = []
+choosing_movies = []
 @views.route("/get-recommendations", methods=["GET", "POST"])
 def get_recommendations():
     global choosing_urls
+    global choosing_movies
     if request.method == "POST":
         if "prompt" in request.form:
             query = request.form["prompt"]
-            username = None
-
-            try:
-                username = session["email"]
-            except:
-                pass
-
-            choosing_movies = [db.get_movie_data(r) for r in db.get_recommendations(query, username)]
+            if session["email"]:
+                choosing_movies = [db.get_movie_data(r) for r in db.get_recommendations(query, session["email"])]
+            else:
+                choosing_movies = [db.get_movie_data(r) for r in db.get_recommendations(query, "")]
             choosing_urls = [r[0] for r in choosing_movies]
 
     if "choosing_idx" not in session:
