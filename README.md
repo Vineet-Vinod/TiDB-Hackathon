@@ -1,5 +1,7 @@
 # AiMo - A Movie Recommender
 
+[Try AiMo Here](https://tidbcloud.com/)
+
 AiMo is an AI-powered movie recommender system that generates personalized movie suggestions based on your storyline input and movie preferences. Simply input a storyline or prompt that you find interesting, and AiMo will recommend a curated list of movies that match your query. By indicating which recommendations you like, AiMo learns and improves future suggestions tailored specifically to your tastes.
 
 This project leverages TiDB for hosting a Vector Database and SQL Databases, ensuring quick and accurate movie recommendations based on past user interactions. The movie data is retrieved using the Cinemagoer Python package.
@@ -15,7 +17,7 @@ This project leverages TiDB for hosting a Vector Database and SQL Databases, ens
 
 To run AiMo locally, you'll need the following:
 
-- A [TiDB Cloud](https://docs.pingcap.com/tidbcloud/vector-search-get-started-using-python) account.
+- A [TiDB Cloud](https://tidbcloud.com/) account.
 - Python 3.10+ installed.
 - A GitHub account to clone the repository.
 
@@ -58,6 +60,8 @@ pip install -r requirements.txt
    EMBED_MODEL_DIMS='768'
    ```
 
+   [Follow this TiDB guide to get started with TiDB in Python](https://docs.pingcap.com/tidbcloud/vector-search-get-started-using-python)
+
 2. Download the `cert.pem` file containing your CA certificate from the TiDB Cloud Database connection page, and place it in the `src/tidb` and `src/website` directories.
 
 ### 4. Initialize the Database
@@ -92,7 +96,7 @@ This project is licensed under the GNU General Public License v3.0. See the [LIC
 
 ## Acknowledgments
 
-- [TiDB Cloud](https://docs.pingcap.com/tidbcloud/vector-search-get-started-using-python) for the scalable database solution.
+- [TiDB Cloud](https://tidbcloud.com/) for the scalable database solution.
 - [Cinemagoer](https://github.com/cinemagoer/cinemagoer) for providing access to extensive movie data.
 
 ---
