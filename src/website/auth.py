@@ -68,6 +68,7 @@ def sign_up():
             flash("Account created!", category="success")
             session["email"] = email
             session["password"] = password
+            session["loggedin"] = True
             return redirect(url_for("views.welcome"))
 
     return render_template("signup.html")
