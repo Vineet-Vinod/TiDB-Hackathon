@@ -6,3 +6,4 @@ tidb/.env
 tidb/cert.pem
 website/.env
 website/cert.pem
+Makefile
