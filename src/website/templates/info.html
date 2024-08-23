@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}AiMo{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2>How AiMo Works</h2>
+    <p class="lead">Our movie recommender system is designed to deliver personalized movie recommendations based on your preferences and search queries.</p>
+    <hr>
+    <h3>System Architecture</h3>
+    <ul>
+        <li><strong>Flask Backend:</strong> The backbone of our system, Flask manages user interactions and database operations.</li>
+        <li><strong>TiDB Database:</strong> Stores user data, including languages, genres, and tuning preferences.</li>
+        <li><strong>TiDB Vector Client:</strong> Efficiently searches and retrieves movies based on semantic similarity to your query.</li>
+        <li><strong>Sentence Transformer Model:</strong> Converts text into vector embeddings for accurate similarity comparisons.</li>
+        <li><strong>IMDbPy Cinemagoer:</strong> Fetches movie data, such as genres and languages, to enrich the recommendation process.</li>
+        <li><strong>Environment Configuration:</strong> Ensures secure handling of sensitive data via environment variables.</li>
+    </ul>
+    <hr>
+    <h3>How It Works</h3>
+    <ol>
+        <li>
+            <strong>Generating Embeddings:</strong>
+            <p>When you input a search query, it is converted into a vector embedding using our Sentence Transformer model. This vector is used to find similar movies in our database.</p>
+        </li>
+        <li>
+            <strong>Vector Store and Search:</strong>
+            <p>Your query embedding is compared against precomputed movie embeddings in the TiDB Vector Store, returning a list of potential movie recommendations.</p>
+        </li>
+        <li>
+            <strong>Filtering Recommendations:</strong>
+            <p>We filter these recommendations based on your stored preferences (genres and languages) to ensure that you only see movies that match your tastes.</p>
+        </li>
+    </ol>
+</div>
+{% endblock %}
