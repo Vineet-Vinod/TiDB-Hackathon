@@ -71,19 +71,6 @@ class _Database:
                     cursor.executemany(insert_usermovies_query, usermovies_values)
                     self.curr_time = int(time.time())
 
-
-    def update_password(self, username: str, password: str) -> None:
-        if int(time.time()) - self.curr_time > 300:
-            self.sql_connection.close()
-            self.establish_connection()
-            self.curr_time = int(time.time())
-
-        with self.sql_connection.cursor() as cursor:
-            update_password_query = "UPDATE users SET password = %s WHERE username = %s"
-            cursor.execute(update_password_query, (password, username))
-            self.curr_time = int(time.time())
-
-
     def get_user_data(self, username: str) -> str | None:
         if int(time.time()) - self.curr_time > 300:
             self.sql_connection.close()
