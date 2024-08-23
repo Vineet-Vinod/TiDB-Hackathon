@@ -65,9 +65,11 @@ class _Database:
                     cursor.execute("INSERT INTO users (username, password, genres, langs) VALUES (%s, %s, %s, %s)", data)
                     self.curr_time = int(time.time())
 
-                if movies:
+                if data and movies:
+                    cursor.execute("SELECT movieid FROM UserMovies where username = %s", (data[0],))
+                    movie_ids = set(cursor.fetchall())
                     insert_usermovies_query = "INSERT INTO UserMovies (username, movieid) VALUES (%s, %s)"
-                    usermovies_values = [(data[0], mov) for mov in movies]
+                    usermovies_values = [(data[0], mov) for mov in movies if mov not in movie_ids]
                     cursor.executemany(insert_usermovies_query, usermovies_values)
                     self.curr_time = int(time.time())
 
