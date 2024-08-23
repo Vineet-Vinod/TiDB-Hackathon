@@ -7,3 +7,4 @@ src/tidb/cert.pem
 src/website/.env
 src/website/cert.pem
 Makefile
+Dockerfile
