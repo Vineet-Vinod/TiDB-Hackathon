@@ -129,6 +129,9 @@ class _Database:
         
         return recommendations
         
+    def get_movie_url(self, movieid: int) -> str:
+        movie = self.ia.get_movie(movieid)
+        return movie["cover url"]
 
 if __name__ == "__main__":
     pass
