@@ -97,6 +97,7 @@ def reset_password():
         elif new_password != password_confirm:
             flash("Passwords do not match.", category="invalid-input")
         else:
+            db.update_password(session["email"], new_password)
             flash("Password reset successfully!", category="success")
             return redirect(url_for("auth.login"))
 
