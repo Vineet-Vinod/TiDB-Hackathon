@@ -1,5 +1,7 @@
 # AiMo - A Movie Recommender
 
+![Logo](./src/website/static/logo.png)
+
 [Try AiMo Here](https://tidbcloud.com/)
 
 AiMo is an AI-powered movie recommender system that generates personalized movie suggestions based on your storyline input and movie preferences. Simply input a storyline or prompt that you find interesting, and AiMo will recommend a curated list of movies that match your query. By indicating which recommendations you like, AiMo learns and improves future suggestions tailored specifically to your tastes.
@@ -35,7 +37,7 @@ Create a Python virtual environment and activate it:
 
 ```bash
 python3 -m venv venv
-source venv/bin/activate   
+source venv/bin/activate
 # On Windows use venv\Scripts\activate`
 ```
 
