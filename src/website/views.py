@@ -122,7 +122,7 @@ def get_recommendations():
         response = request.form.get("response")
         if response == "right":
             if "email" in session:
-                db.add_user_data((session["email"]), (movie_ids[session["choosing_idx"]]))
+                db.add_user_data((session["email"],), (movie_ids[session["choosing_idx"]],))
         session["choosing_idx"] += 1
 
     # Display the current recommendation poster or render the home page
