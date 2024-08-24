@@ -121,7 +121,8 @@ def get_recommendations():
         # Record the user's response to the current recommendation
         response = request.form.get("response")
         if response == "right":
-            db.add_user_data((session["email"]), (movie_ids[session["choosing_idx"]]))
+            if "email" in session:
+                db.add_user_data((session["email"]), (movie_ids[session["choosing_idx"]]))
         session["choosing_idx"] += 1
 
     # Display the current recommendation poster or render the home page
@@ -129,5 +130,8 @@ def get_recommendations():
     if idx == len(choosing_urls):
         return render_template("home.html")
     poster_url = choosing_urls[idx]
-    
-    return render_template("swipe.html", poster_url=poster_url, movie_title=choosing_movies[idx][1], movie_plot=choosing_movies[idx][2])
+
+    if request.method == "POST":
+        return render_template("swipe.html", poster_url=poster_url, movie_title=choosing_movies[idx][1], movie_plot=choosing_movies[idx][2])
+    else:
+        return render_template("home.html")
