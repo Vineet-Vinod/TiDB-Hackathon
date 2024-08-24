@@ -13,6 +13,7 @@ views = Blueprint("views", __name__)
 
 @views.route('/')
 def home():
+    return redirect(url_for("views.tune_preferences"))
     return render_template("home.html")
 
 @views.route('/info')
@@ -66,6 +67,9 @@ def tune_preferences(): # They should get this page only when they create an acc
         session["tuning_idx"] = 0
     if session["tuning_idx"] == len(template_movies):
         session["tuning_idx"] = 0
+
+    print(session["responses"])
+    print(request.form.get("response"))
 
     if request.method == "POST":
         # Record the user's response to the current poster

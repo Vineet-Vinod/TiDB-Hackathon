@@ -4,6 +4,7 @@
 <div class="preferences-form container-fluid d-flex flex-column align-items-center">
     <form id="preference-form" method="post" class="d-flex flex-column align-items-center">
         <div class="d-flex align-items-center" style="max-width: 100%; position: relative;">
+            <input type="hidden" name="response" id="response" value="">
             <div class="image-container">
                 <img src="{{ poster_url }}" alt="Preference Image" class="img-fluid" id="movie-poster" style="aspect-ratio: 1;"/>
             </div>
@@ -34,8 +35,8 @@
 
     function handleClick(direction) {
         setResponse(direction);
-        var btn = direction === 'left' ? document.getElementById('left-btn') : document.getElementById('right-btn');
-        var char = direction === 'left' ? '&#128078;' : '&#128077;';
+        var btn = direction == 'left' ? document.getElementById('left-btn') : document.getElementById('right-btn');
+        var char = direction == 'left' ? '&#128078;' : '&#128077;';
         createPopupCharacter(btn, char);
     }
 
