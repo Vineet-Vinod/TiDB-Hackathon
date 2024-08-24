@@ -121,7 +121,7 @@ def get_recommendations():
         # Record the user's response to the current recommendation
         response = request.form.get("response")
         if response == "right":
-            add_user_data((session["email"]), (movie_ids[session["choosing_idx"]]))
+            db.add_user_data((session["email"]), (movie_ids[session["choosing_idx"]]))
         session["choosing_idx"] += 1
 
     # Display the current recommendation poster or render the home page
