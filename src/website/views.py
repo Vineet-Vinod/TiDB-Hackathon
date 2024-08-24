@@ -90,10 +90,12 @@ def tune_preferences(): # They should get this page only when they create an acc
 # These must be global to maintain static state
 choosing_urls = []
 choosing_movies = []
+movie_ids = []
 @views.route("/get-recommendations", methods=["GET", "POST"])
 def get_recommendations():
     global choosing_urls
     global choosing_movies
+    global movie_ids
     if request.method == "POST":
         if "prompt" in request.form:
             query = request.form["prompt"]
@@ -104,7 +106,8 @@ def get_recommendations():
             except:
                 pass
             
-            choosing_movies = [db.get_movie_data(r) for r in db.get_recommendations(query, username)]
+            movie_ids = db.get_recommendations(query, username)
+            choosing_movies = [db.get_movie_data(r) for r in movie_ids]
             choosing_urls = [r[0] for r in choosing_movies]
             if "choosing_idx" in session: session["choosing_idx"] = 0
 
@@ -118,7 +121,7 @@ def get_recommendations():
         # Record the user's response to the current recommendation
         response = request.form.get("response")
         if response == "right":
-            return render_template("home.html")
+            add_user_data((session["email"]), (movie_ids[session["choosing_idx"]]))
         session["choosing_idx"] += 1
 
     # Display the current recommendation poster or render the home page
