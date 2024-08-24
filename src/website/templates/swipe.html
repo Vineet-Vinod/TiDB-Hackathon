@@ -3,21 +3,15 @@
 {% block content %}
 <div class="preferences-form container-fluid d-flex flex-column align-items-center">
     <form id="preference-form" method="post" class="d-flex flex-column align-items-center">
-        {% if show_details %}
-            <div class="d-flex align-items-center" style="max-width: 100%; position: relative;">
-                <div class="image-container">
-                    <img src="{{ poster_url }}" alt="Preference Image" class="img-fluid" id="movie-poster" style="aspect-ratio: 1;"/>
-                </div>
-                <div class="movie-details">
-                    <h2>{{ movie_title }}</h2>
-                    <p style="max-height: 20rem; overflow-y: scroll; margin-top: 1rem;">{{ movie_plot }}</p>
-                </div>
-            </div>
-        {% else %}
+        <div class="d-flex align-items-center" style="max-width: 100%; position: relative;">
             <div class="image-container">
                 <img src="{{ poster_url }}" alt="Preference Image" class="img-fluid" id="movie-poster" style="aspect-ratio: 1;"/>
             </div>
-        {% endif %}
+            <div class="movie-details">
+                <h2>{{ movie_title }}</h2>
+                <p>{{ movie_plot }}</p>
+            </div>
+        </div>
         <div class="d-flex mt-4">
             <button type="submit" class="btn" id="left-btn" onclick="handleClick('left')"><h1>&lt;&lt;</h1></button>
             <button type="submit" class="btn" id="right-btn" onclick="handleClick('right')"><h1>&gt;&gt;</h1></button>

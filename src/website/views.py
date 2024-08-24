@@ -57,14 +57,14 @@ def get_language():
 @views.route("/tune-preferences", methods=["GET", "POST"])
 def tune_preferences(): # They should get this page only when they create an account
     # Get movie poster URLs for preference tuning
-    poster_urls = preferenceTuningPosters()
+    template_movies = preferenceTuningPosters()
     
     # Initialize session variables if not already set
     if "responses" not in session:
         session["responses"] = []
     if "tuning_idx" not in session:
         session["tuning_idx"] = 0
-    if session["tuning_idx"] == len(poster_urls):
+    if session["tuning_idx"] == len(template_movies):
         session["tuning_idx"] = 0
 
     if request.method == "POST":
@@ -76,9 +76,9 @@ def tune_preferences(): # They should get this page only when they create an acc
     
      # Display the current poster URL or redirect to language preferences
     idx = session["tuning_idx"]
-    if idx < len(poster_urls):
-        poster_url = poster_urls[idx]
-        return render_template("swipe.html", poster_url=poster_url, show_details=False)
+    if idx < len(template_movies):
+        template_movie = template_movies[idx]
+        return render_template("swipe.html", poster_url=template_movie[0], movie_title=template_movie[1], movie_plot=template_movie[2])
     else:
         return redirect(url_for("views.get_language"))
 
@@ -102,6 +102,7 @@ def get_recommendations():
             
             choosing_movies = [db.get_movie_data(r) for r in db.get_recommendations(query, username)]
             choosing_urls = [r[0] for r in choosing_movies]
+            if "choosing_idx" in session: session["choosing_idx"] = 0
 
     # Initialize session variables if not already set
     if "choosing_idx" not in session:
@@ -122,6 +123,6 @@ def get_recommendations():
         return render_template("home.html")
     poster_url = choosing_urls[idx]
     if request.method == "POST":
-        return render_template("swipe.html", poster_url=poster_url, show_details=True, movie_title=choosing_movies[idx][1], movie_plot=choosing_movies[idx][2])
+        return render_template("swipe.html", poster_url=poster_url, movie_title=choosing_movies[idx][1], movie_plot=choosing_movies[idx][2])
     else:
         return render_template("home.html")

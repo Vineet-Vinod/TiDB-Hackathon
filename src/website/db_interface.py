@@ -67,7 +67,10 @@ class _Database:
 
                 if data and movies:
                     cursor.execute("SELECT movieid FROM UserMovies where username = %s", (data[0],))
-                    movie_ids = set(cursor.fetchall())
+                    result = cursor.fetchall()
+                    movie_ids = set()
+                    if result: movie_ids = set(result)
+                    
                     insert_usermovies_query = "INSERT INTO UserMovies (username, movieid) VALUES (%s, %s)"
                     usermovies_values = [(data[0], mov) for mov in movies if mov not in movie_ids]
                     cursor.executemany(insert_usermovies_query, usermovies_values)
@@ -142,4 +145,4 @@ class _Database:
         except:
             pass
 
-        return (poster_url, movie["title"], ' '.join(movie["plot"]))
+        return (poster_url, movie["title"], movie["plot"][0])
