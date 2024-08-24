@@ -129,7 +129,5 @@ def get_recommendations():
     if idx == len(choosing_urls):
         return render_template("home.html")
     poster_url = choosing_urls[idx]
-    if request.method == "POST":
-        return render_template("swipe.html", poster_url=poster_url, movie_title=choosing_movies[idx][1], movie_plot=choosing_movies[idx][2])
-    else:
-        return render_template("home.html")
+    
+    return render_template("swipe.html", poster_url=poster_url, movie_title=choosing_movies[idx][1], movie_plot=choosing_movies[idx][2])
