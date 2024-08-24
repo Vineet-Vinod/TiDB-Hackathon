@@ -13,7 +13,7 @@ views = Blueprint("views", __name__)
 
 @views.route('/')
 def home():
-    return redirect(url_for("views.tune_preferences"))
+    #return redirect(url_for("views.tune_preferences"))
     return render_template("home.html")
 
 @views.route('/info')
