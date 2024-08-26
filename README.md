@@ -10,6 +10,8 @@ AiMo is an AI-powered movie recommending system that generates personalized movi
 
 This project leverages TiDB for hosting a Vector Database and SQL Databases, ensuring quick and accurate movie recommendations based on past user interactions. The movie data is retrieved using the Cinemagoer Python package.
 
+Note: Our movie database is limited due to legal constraints, so recommendations might be narrower than expected. Also, they may take a moment to load as we fine-tune your perfect match. Thanks for your patience!
+
 ## Features
 
 - **Personalized Recommendations:** Input a storyline or prompt and receive movie suggestions tailored to your preferences.
